@@ -21,7 +21,7 @@
 // Funzione per combattere controllare se ha vinto e continuare se nessuno è morto
 // Funzione per difendersi dal mostro, fuggire e curarsi
 // Commit da fare:
-// Colorare e decorare i console.log
+// Colorare e decorare i console.log e commenti nel codice
 
 const input = prompt("Inserire un nickname: "); // chiede al player l'input per il nickname
 // se il player cancella non succede niente
@@ -61,27 +61,30 @@ if (input !== null) {
   ];
 
   let player = creazionePlayer();
-  console.log(`%cCiao ${player.nome}`, "color: yellow"); // nome player
-  console.log(`%cLa tua vita: ${player.vita}`, "color: lightgreen"); // vita player
-  console.log(`%cLe tue cure: ${player.pozioni}`, "color: yellowgreen"); // vita player
-  console.log(`%cIl tuo attacco: ${player.attacco}`, "color: orange"); // attacco player
-  console.log(`%cIl tuo difesa: ${player.difesa}`, "color: blue"); // difesa player
+  console.log(`%c👋 Ciao ${player.nome}`, "color: yellow"); // nome player
+  console.log(`%c❤️ La tua vita: ${player.vita}`, "color: lightgreen"); // vita player
+  console.log(`%c🧪 Le tue pozioni: ${player.pozioni}`, "color: yellowgreen"); // vita player
+  console.log(`%c⚔️ Il tuo attacco: ${player.attacco}`, "color: orange"); // attacco player
+  console.log(`%c🛡️ Il tuo difesa: ${player.difesa}`, "color: blue"); // difesa player
   console.log("%c////////////////////////////////////", "color: black"); // spazio per bellezza
 
   let mostroDaCombattere = Math.floor(Math.random() * 3); // numero random per scegliere uno dei mostri
   console.log(
-    `%cCombatterai contro: ${mostri[mostroDaCombattere].nome}`,
+    `%c👹 Combatterai contro: ${mostri[mostroDaCombattere].nome}`,
     "color: red"
   ); // nome mostro
   console.log(
-    `%cVita: ${mostri[mostroDaCombattere].vita}`,
+    `%c❤️ Vita: ${mostri[mostroDaCombattere].vita}`,
     "color: lightgreen"
   ); // vita mostro
   console.log(
-    `%cAttacco: ${mostri[mostroDaCombattere].attacco}`,
+    `%c⚔️ Attacco: ${mostri[mostroDaCombattere].attacco}`,
     "color: orange"
   ); // attacco mostro
-  console.log(`%cDifesa: ${mostri[mostroDaCombattere].difesa}`, "color: blue"); // difesa mostro
+  console.log(
+    `%c🛡️ Difesa: ${mostri[mostroDaCombattere].difesa}`,
+    "color: blue"
+  ); // difesa mostro
   console.log("%c////////////////////////////////////", "color: black"); // spazio per bellezza
 
   domanda();
@@ -92,64 +95,77 @@ if (input !== null) {
     );
 
     if (opzioneUtente.toLocaleLowerCase() === "attacca") {
-      console.log(attacco());
+      attacco();
     } else if (opzioneUtente.toLocaleLowerCase() === "difenditi") {
-      console.log(difesa());
+      difesa();
     } else if (opzioneUtente.toLocaleLowerCase() === "fuggi") {
-      console.log(fuggi());
+      fuggi();
     } else if (opzioneUtente.toLocaleLowerCase() === "curati") {
-      console.log(curati());
+      curati();
     } else {
       console.log("Errore, riprova");
     }
   }
 
   function curati() {
+    // controllo se ci sono pozioni
     if (player.pozioni > 0) {
       let cura = Math.floor(Math.random() * 30) + 10; // min 10 max 40
-      player.vita = player.vita + cura;
-      player.pozioni = player.pozioni - 1;
-      console.log("Ti sei curato adesso hai: " + player.vita);
-      console.log("Pozioni rimanenti: " + player.pozioni);
+      player.vita = player.vita + cura; // update della vita del player
+      player.pozioni = player.pozioni - 1; // update delle pozioni
+      console.log(
+        "%c🧪 Ti sei curato adesso hai: " + player.vita + " vita",
+        "color: yellowgreen"
+      ); // informo l'utente della sua vita
+      console.log(
+        "%c🧪 Pozioni rimanenti: " + player.pozioni,
+        "color: yellowgreen"
+      ); // informo l'utente delle pozioni rimanenti
+
+      // Mostro attacca
       let attaccoMostro =
         player.vita - (mostri[mostroDaCombattere].attacco - player.difesa);
+      // Controllo se il mostro fa almeno 1 di danno
       if (mostri[mostroDaCombattere].attacco - player.difesa > 0) {
         player.vita = attaccoMostro;
       }
 
       console.log(
-        "💔 " +
+        "%c💔 " +
           mostri[mostroDaCombattere].nome +
           " ti attacca e ti infligge: " +
-          (mostri[mostroDaCombattere].attacco - player.difesa)
+          (mostri[mostroDaCombattere].attacco - player.difesa),
+        "color: red"
       );
-
+      // Controllo se il player muore
       if (player.vita <= 0) {
-        return "💀 Hai perso";
+        console.log("💀 Hai perso");
       } else {
-        console.log("La tua vita: " + player.vita);
+        console.log("%c❤️ La tua vita: " + player.vita, "color: lightgreen");
         console.log("%c////////////////////////////////////", "color: black");
         domanda();
       }
     } else {
-      console.log("Non hai cure!");
+      console.log("%c❌ Non hai cure!", "color: yellowgreen");
       let attaccoMostro =
         player.vita - (mostri[mostroDaCombattere].attacco - player.difesa);
+      // Controllo se il mostro fa almeno 1 di danno
       if (mostri[mostroDaCombattere].attacco - player.difesa > 0) {
         player.vita = attaccoMostro;
       }
 
       console.log(
-        "💔 " +
+        "%c💔 " +
           mostri[mostroDaCombattere].nome +
           " ti attacca e ti infligge: " +
-          (mostri[mostroDaCombattere].attacco - player.difesa)
+          (mostri[mostroDaCombattere].attacco - player.difesa),
+        "color: red"
       );
-
+      // Controllo se muore il player
       if (player.vita <= 0) {
-        return "💀 Hai perso";
+        console.log("💀 Hai perso");
       } else {
-        console.log("La tua vita: " + player.vita);
+        console.log("%cLa tua vita: " + player.vita, "color: lightgreen");
         console.log("%c////////////////////////////////////", "color: black");
         domanda();
       }
@@ -158,26 +174,29 @@ if (input !== null) {
 
   function fuggi() {
     let fuggi = Math.floor(Math.random() * 100);
+    // Controllo controllo se il numero fuggi è minore del mostro es: Slime = 90 se fuggi è tra 90 - 100 non fuggi
     if (fuggi < mostri[mostroDaCombattere].fuga) {
       console.log("💨 Sei scappato!");
     } else {
       let attaccoMostro =
         player.vita - (mostri[mostroDaCombattere].attacco - player.difesa);
+      // Controllo se il mostro fa almeno 1 di danno
       if (mostri[mostroDaCombattere].attacco - player.difesa > 0) {
         player.vita = attaccoMostro;
       }
 
       console.log(
-        "💔 " +
+        "%c💔 " +
           mostri[mostroDaCombattere].nome +
           " ti attacca e ti infligge: " +
-          (mostri[mostroDaCombattere].attacco - player.difesa)
+          (mostri[mostroDaCombattere].attacco - player.difesa),
+        "color: red"
       );
-
+      // Controllo se muore il player
       if (player.vita <= 0) {
-        return "💀 Hai perso";
+        console.log("💀 Hai perso");
       } else {
-        console.log("La tua vita: " + player.vita);
+        console.log("%cLa tua vita: " + player.vita, "color: lightgreen");
         console.log("%c////////////////////////////////////", "color: black");
         domanda();
       }
@@ -185,70 +204,78 @@ if (input !== null) {
   }
 
   function difesa() {
-    console.log("Ti difendi");
+    console.log("%c🛡️ Ti difendi", "color: blue");
+
     let attaccoMostro =
       player.vita - (mostri[mostroDaCombattere].attacco - player.difesa);
+    // Controllo se il mostro fa almeno 1 di danno
     if (mostri[mostroDaCombattere].attacco - player.difesa > 0) {
       player.vita = attaccoMostro;
     }
 
     console.log(
-      "💔 " +
+      "%c💔 " +
         mostri[mostroDaCombattere].nome +
         " ti attacca e ti infligge: " +
-        (mostri[mostroDaCombattere].attacco - player.difesa)
+        (mostri[mostroDaCombattere].attacco - player.difesa),
+      "color: red"
     );
-
+    // Controllo se il player muore
     if (player.vita <= 0) {
-      return "💀 Hai perso";
+      console.log("💀 Hai perso");
     } else {
-      console.log("La tua vita: " + player.vita);
+      console.log("%c❤️ La tua vita: " + player.vita, "color: lightgreen");
       console.log("%c////////////////////////////////////", "color: black");
       domanda();
     }
-    domanda();
   }
 
   function attacco() {
     let attacco =
       mostri[mostroDaCombattere].vita -
       (player.attacco - mostri[mostroDaCombattere].difesa);
+    // Controllo se il mostro fa almeno 1 di danno
     if (player.attacco - mostri[mostroDaCombattere].difesa > 0) {
       mostri[mostroDaCombattere].vita = attacco;
     }
-
+    // Controllo se il mostro muore
     if (mostri[mostroDaCombattere].vita <= 0) {
-      return "🎉 Hai vinto!";
+      console.log("🎉 Hai vinto!");
     } else {
       console.log(
-        "⚔️ Hai inflitto: " +
-          (player.attacco - mostri[mostroDaCombattere].difesa)
+        "%c⚔️ Hai inflitto: " +
+          (player.attacco - mostri[mostroDaCombattere].difesa),
+        "color: orange"
       );
       console.log(
-        mostri[mostroDaCombattere].nome +
+        "%c❤️ " +
+          mostri[mostroDaCombattere].nome +
           " adesso ha: " +
           mostri[mostroDaCombattere].vita +
-          " di vita"
+          " di vita",
+        "color: red"
       );
       console.log("%c////////////////////////////////////", "color: black");
 
       let attaccoMostro =
         player.vita - (mostri[mostroDaCombattere].attacco - player.difesa);
+      // Controllo se il mostro fa almeno 1 di danno
       if (mostri[mostroDaCombattere].attacco - player.difesa > 0) {
         player.vita = attaccoMostro;
       }
 
       console.log(
-        "💔 " +
+        "%c💔 " +
           mostri[mostroDaCombattere].nome +
           " ti attacca e ti infligge: " +
-          (mostri[mostroDaCombattere].attacco - player.difesa)
+          (mostri[mostroDaCombattere].attacco - player.difesa),
+        "color: red"
       );
-
+      // Controllo se il player muore
       if (player.vita <= 0) {
-        return "💀 Hai perso";
+        console.log("💀 Hai perso");
       } else {
-        console.log("La tua vita: " + player.vita);
+        console.log("%c❤️ La tua vita: " + player.vita, "color: lightgreen");
         console.log("%c////////////////////////////////////", "color: black");
         domanda();
       }
